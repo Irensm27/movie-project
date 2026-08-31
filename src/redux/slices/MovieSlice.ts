@@ -1,10 +1,13 @@
-import type {IMovie} from "../../models/IMovie.ts";
-import {createAsyncThunk, createSlice, type PayloadAction} from "@reduxjs/toolkit";
-import {movieService} from "../../services/movie.api.service.ts";
+import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
 import type {IMovieResponse} from "../../models/IMovieResponse.ts";
+import type {IGenreResponse} from "../../models/IGenreResponse.ts";
+import {loadGenres, loadMovies} from "../movieThunks.ts";
+import type {IMovie} from "../../models/IMovie.ts";
+import type {IGenre} from "../../models/IGenre.ts";
 
 type MovieSliceType = {
     movies: IMovie[];
+    genres: IGenre[];
     page: number;
     totalPages: number;
     totalResults: number;
@@ -14,24 +17,12 @@ type MovieSliceType = {
 
 const initialMovieSliceState: MovieSliceType = {
     movies: [],
+    genres: [],
     page: 1,
     totalPages: 0,
     totalResults: 0,
     error: null
 };
-
-const loadMovies = createAsyncThunk(
-    'movieSlice/loadMovies',
-    async (_, thunkAPI) => {
-        try {
-            const {data} = await movieService.getMovies();
-            return data;
-        } catch (error) {
-            console.log(error)
-            return thunkAPI.rejectWithValue('Failed to load movies');
-        }
-    }
-);
 
 export const movieSlice = createSlice({
     name: 'movieSlice',
@@ -54,6 +45,17 @@ export const movieSlice = createSlice({
             state.error = action.payload as string;
         })
 
+        .addCase(
+            loadGenres.fulfilled,
+            (state, action:PayloadAction<IGenreResponse>)=>{
+                state.genres= action.payload.genres;
+                state.error = null;
+            })
+
+        .addCase(loadGenres.rejected, (state, action) => {
+            state.error = action.payload as string;
+        })
+
 
 })
-export const movieActions = {...movieSlice.actions, loadMovies};
+export const movieActions = {...movieSlice.actions, loadMovies, loadGenres};
