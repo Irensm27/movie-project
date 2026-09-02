@@ -82,4 +82,4 @@ export const movieSlice = createSlice({
 
 
 })
-export const movieActions = {...movieSlice.actions, loadMovies, loadGenres, loadMovieById};
+export const movieActions = {...movieSlice.actions, loadMovies, loadGenres, loadMovieById, searchMovies};

@@ -1,4 +1,5 @@
 import UserInfo from "./UserInfo.tsx";
+import Search from "./Search.tsx";
 
 const Header = () => {
     return (
@@ -8,6 +9,8 @@ const Header = () => {
                 <h1 className="text-2xl font-bold text-gray-800">
                     Movies
                 </h1>
+
+                <Search />
 
                 <UserInfo/>
 
