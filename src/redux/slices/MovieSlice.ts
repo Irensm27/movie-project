@@ -1,7 +1,7 @@
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
 import type {IMovieResponse} from "../../models/IMovieResponse.ts";
 import type {IGenreResponse} from "../../models/IGenreResponse.ts";
-import {loadGenres, loadMovies} from "../movieThunks.ts";
+import {loadGenres, loadMovieById, loadMovies, searchMovies} from "../movieThunks.ts";
 import type {IMovie} from "../../models/IMovie.ts";
 import type {IGenre} from "../../models/IGenre.ts";
 
@@ -12,6 +12,7 @@ type MovieSliceType = {
     totalPages: number;
     totalResults: number;
     error: string | null;
+    movie: IMovie | null;
 
 };
 
@@ -21,13 +22,18 @@ const initialMovieSliceState: MovieSliceType = {
     page: 1,
     totalPages: 0,
     totalResults: 0,
-    error: null
+    error: null,
+    movie: null,
 };
 
 export const movieSlice = createSlice({
     name: 'movieSlice',
     initialState: initialMovieSliceState,
-    reducers:{},
+    reducers: {
+        changePage: (state, action:PayloadAction<number>) => {
+            state.page = action.payload;
+        }
+    },
     extraReducers: builder => builder
         .addCase(
             loadMovies.fulfilled,
@@ -56,6 +62,24 @@ export const movieSlice = createSlice({
             state.error = action.payload as string;
         })
 
+        .addCase(loadMovieById.fulfilled,
+            (state, action:PayloadAction<IMovie>)=>{
+            state.movie= action.payload;
+            state.error= null;
+            })
+
+        .addCase(loadMovieById.rejected, (state, action) => {
+            state.error = action.payload as string;
+        })
+
+        .addCase(searchMovies.fulfilled, (state, action: PayloadAction<IMovieResponse>) => {
+            state.movies = action.payload.results;
+        })
+
+        .addCase(searchMovies.rejected, (state, action) => {
+            state.error = action.payload as string;
+        })
+
 
 })
-export const movieActions = {...movieSlice.actions, loadMovies, loadGenres};
+export const movieActions = {...movieSlice.actions, loadMovies, loadGenres, loadMovieById};
