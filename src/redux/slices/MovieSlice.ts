@@ -4,6 +4,7 @@ import type {IGenreResponse} from "../../models/IGenreResponse.ts";
 import {loadGenres, loadMovieById, loadMovies, searchMovies} from "../movieThunks.ts";
 import type {IMovie} from "../../models/IMovie.ts";
 import type {IGenre} from "../../models/IGenre.ts";
+import type {IMovieDetails} from "../../models/IMovieDetails.ts";
 
 type MovieSliceType = {
     movies: IMovie[];
@@ -12,7 +13,10 @@ type MovieSliceType = {
     totalPages: number;
     totalResults: number;
     error: string | null;
-    movie: IMovie | null;
+    movie: IMovieDetails | null;
+    searchQuery: string;
+    selectedGenreId: number | null;
+    sortBy: string;
 
 };
 
@@ -24,6 +28,9 @@ const initialMovieSliceState: MovieSliceType = {
     totalResults: 0,
     error: null,
     movie: null,
+    searchQuery: '',
+    selectedGenreId: null,
+    sortBy: 'popularity.desc',
 };
 
 export const movieSlice = createSlice({
@@ -31,9 +38,22 @@ export const movieSlice = createSlice({
     initialState: initialMovieSliceState,
     reducers: {
         changePage: (state, action:PayloadAction<number>) => {
-            state.page = action.payload;
-        }
-    },
+            state.page = action.payload;},
+
+        changeSearchQuery: (state, action: PayloadAction<string>) => {
+            state.searchQuery = action.payload;
+            state.selectedGenreId = null;
+            state.page = 1;},
+
+        changeGenre: (state, action: PayloadAction<number | null>) => {
+            state.selectedGenreId = action.payload;
+            state.searchQuery = '';
+            state.page = 1;},
+
+        changeSort: (state, action: PayloadAction<string>) => {
+            state.sortBy = action.payload;
+            state.page = 1;}},
+
     extraReducers: builder => builder
         .addCase(
             loadMovies.fulfilled,
@@ -63,7 +83,7 @@ export const movieSlice = createSlice({
         })
 
         .addCase(loadMovieById.fulfilled,
-            (state, action:PayloadAction<IMovie>)=>{
+            (state, action:PayloadAction<IMovieDetails>)=>{
             state.movie= action.payload;
             state.error= null;
             })

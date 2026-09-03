@@ -13,6 +13,7 @@ const PosterPreview:FC<PosterPreviewProps> = ({posterPath, title}) => {
         <img
             src={posterUrl}
             alt={title}
+            className="aspect-[2/3] w-full object-cover"
         />
     );
 };

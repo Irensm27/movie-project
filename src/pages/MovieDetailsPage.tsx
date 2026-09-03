@@ -13,16 +13,35 @@ const MovieDetailsPage = () => {
         if (id) {
             dispatch(movieActions.loadMovieById(id));
         }
-    },[id, dispatch]);
+    }, [id, dispatch]);
     return (
         <div>
             {
                 movie &&
                 <div>
+                    <img
+                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                        alt={movie.title}
+                    />
+
                     <h1>{movie.title}</h1>
+
                     <p>{movie.overview}</p>
-                    <p>{movie.release_date}</p>
-                    <p>{movie.vote_average}</p>
+
+                    <div>
+                        {
+                            movie.genres.map(genre =>
+                                    <span key={genre.id}>
+                                {genre.name}
+                            </span>
+                            )
+                        }
+                    </div>
+
+                    <p>Release date: {movie.release_date}</p>
+                    <p>Rating: {movie.vote_average}</p>
+                    <p>Votes: {movie.vote_count}</p>
+                    <p>Runtime: {movie.runtime} min</p>
                 </div>
             }
         </div>

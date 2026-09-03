@@ -8,7 +8,7 @@ const StarsRating:FC<StarsRatingProps> = ({rating}) => {
     const stars = Math.round(rating / 2);
 
     return (
-        <div>
+        <div className="flex items-center gap-1 text-yellow-400">
             {
                 [1, 2, 3, 4, 5].map(star => (
                     <span key={star}>

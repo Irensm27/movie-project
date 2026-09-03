@@ -5,11 +5,18 @@ import {genreService, movieService} from "../services/movie.api.service.ts";
 
 export const loadMovies = createAsyncThunk(
     'movieSlice/loadMovies',
-    async (page:number, thunkAPI) => {
+    async (
+        {page, genreId, sortBy}: {page:number, genreId:number | null, sortBy: string;},
+        thunkAPI
+    ) => {
         try {
-            const {data} = await movieService.getMovies(page);
+            const {data} = await movieService.getMovies(
+                page,
+                genreId ?? undefined,
+                sortBy
+            );
             return data;
-        } catch  {
+        } catch {
             return thunkAPI.rejectWithValue('Failed to load movies');
         }
     }
@@ -41,12 +48,12 @@ export const loadMovieById = createAsyncThunk(
 
 export const searchMovies = createAsyncThunk(
     'movieSlice/searchMovies',
-    async (query:string, thunkAPI)=>{
-        try{
-            const {data}= await movieService.searchMovies(query);
+    async ({query, page}: {query:string, page:number}, thunkAPI) => {
+        try {
+            const {data} = await movieService.searchMovies(query, page);
             return data;
-        }catch {
-            return thunkAPI.rejectWithValue('Failed to search movie')
+        } catch {
+            return thunkAPI.rejectWithValue('Failed to search movie');
         }
     }
 )
