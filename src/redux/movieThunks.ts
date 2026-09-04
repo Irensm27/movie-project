@@ -56,4 +56,16 @@ export const searchMovies = createAsyncThunk(
             return thunkAPI.rejectWithValue('Failed to search movie');
         }
     }
+);
+
+export const loadTopRatedMovies = createAsyncThunk(
+    'movieSlice/loadTopRatedMovies',
+    async (_, thunkAPI)=>{
+        try {
+            const {data} = await movieService.getTopRatedMovies();
+            return data;
+        } catch {
+            return thunkAPI.rejectWithValue('Failed to load top rated movies');
+        }
+    }
 )

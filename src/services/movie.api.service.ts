@@ -18,8 +18,9 @@ export const movieService = {
 
     getMovieById: (id:string) => axiosInstance.get<IMovieDetails>(`/movie/${id}`),
 
-    searchMovies: (query:string, page:number) =>
-        axiosInstance.get<IMovieResponse>(`/search/movie?query=${query}&page=${page}`),
+    searchMovies: (query:string, page:number) => axiosInstance.get<IMovieResponse>(`/search/movie?query=${query}&page=${page}`),
+
+    getTopRatedMovies: () => axiosInstance.get<IMovieResponse>("/movie/top_rated?page=1")
 }
 export const genreService = {
     getGenres: () => axiosInstance.get<IGenreResponse>("/genre/movie/list")

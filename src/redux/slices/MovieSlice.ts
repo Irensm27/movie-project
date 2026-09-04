@@ -1,7 +1,7 @@
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
 import type {IMovieResponse} from "../../models/IMovieResponse.ts";
 import type {IGenreResponse} from "../../models/IGenreResponse.ts";
-import {loadGenres, loadMovieById, loadMovies, searchMovies} from "../movieThunks.ts";
+import {loadGenres, loadMovieById, loadMovies, loadTopRatedMovies, searchMovies} from "../movieThunks.ts";
 import type {IMovie} from "../../models/IMovie.ts";
 import type {IGenre} from "../../models/IGenre.ts";
 import type {IMovieDetails} from "../../models/IMovieDetails.ts";
@@ -17,6 +17,7 @@ type MovieSliceType = {
     searchQuery: string;
     selectedGenreId: number | null;
     sortBy: string;
+    topMovies: IMovie[]
 
 };
 
@@ -31,6 +32,7 @@ const initialMovieSliceState: MovieSliceType = {
     searchQuery: '',
     selectedGenreId: null,
     sortBy: 'popularity.desc',
+    topMovies: []
 };
 
 export const movieSlice = createSlice({
@@ -100,6 +102,14 @@ export const movieSlice = createSlice({
             state.error = action.payload as string;
         })
 
+        .addCase(loadTopRatedMovies.fulfilled, (state, action:PayloadAction<IMovieResponse>)=>{
+            state.topMovies = action.payload.results;
+        })
+
+        .addCase(loadTopRatedMovies.rejected, (state, action)=>{
+            state.error = action.payload as string;
+        })
+
 
 })
-export const movieActions = {...movieSlice.actions, loadMovies, loadGenres, loadMovieById, searchMovies};
+export const movieActions = {...movieSlice.actions, loadMovies, loadGenres, loadMovieById, searchMovies, loadTopRatedMovies};
