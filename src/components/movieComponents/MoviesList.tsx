@@ -1,6 +1,6 @@
-import {useAppDispatch, useAppSelector} from "../redux/store.ts";
+import {useAppDispatch, useAppSelector} from "../../redux/store.ts";
 import {useEffect} from "react";
-import {movieActions} from "../redux/slices/MovieSlice.ts";
+import {movieActions} from "../../redux/slices/MovieSlice.ts";
 import MovieListCard from "./MovieListCard.tsx";
 
 

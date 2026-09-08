@@ -1,7 +1,7 @@
-import type {IMovie} from "../models/IMovie.ts";
+import type {IMovie} from "../../models/moviemodels/IMovie.ts";
 import type {FC} from "react";
-import type {IGenre} from "../models/IGenre.ts";
-import GenreBadge from "./GenreBadge.tsx";
+import type {IGenre} from "../../models/genremodels/IGenre.ts";
+import GenreBadge from "../genreComponents/GenreBadge.tsx";
 
 interface IMovieInfoProps {
     movie: IMovie;

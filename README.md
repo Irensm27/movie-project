@@ -1,75 +1,162 @@
-# React + TypeScript + Vite
+# Movies App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Movies App is a React application for browsing movies using The Movie Database (TMDB) API.
 
-Currently, two official plugins are available:
+## Technologies
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React
+- TypeScript
+- Redux Toolkit
+- React Router
+- Axios
+- Tailwind CSS
+- TMDB API
 
-## React Compiler
+## Installation and project launch
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Clone the repository.
 
-## Expanding the ESLint configuration
+2. Install the dependencies:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+3. Create a `.env` file in the root directory of the project.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+4. Add the TMDB API token to the `.env` file:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_TMDB_TOKEN=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NTEyZGQzOTQzODhiMDRkNWJhZDBiZWQxNWI5ZjFkZSIsIm5iZiI6MTc4ODEwNDY5MS42MDMwMDAyLCJzdWIiOiI2YTk0NGZmMzAxYjA5MmEyN2M0MjU0N2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.ataDkmNWWaVcnCErir5XgotxA-Ws2JgCDlqHwfYK50I
+```
 
+5. Start the project:
+
+```bash
+npm run dev
+```
+
+After starting the project, open the URL shown by Vite in the terminal.
+
+## TMDB API Token
+
+The application uses a TMDB API token for authorization.
+
+Add the following variable to the `.env` file:
+
+```env
+VITE_TMDB_TOKEN=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NTEyZGQzOTQzODhiMDRkNWJhZDBiZWQxNWI5ZjFkZSIsIm5iZiI6MTc4ODEwNDY5MS42MDMwMDAyLCJzdWIiOiI2YTk0NGZmMzAxYjA5MmEyN2M0MjU0N2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.ataDkmNWWaVcnCErir5XgotxA-Ws2JgCDlqHwfYK50I
+```
+
+## Pages
+
+### Movies Page
+
+URL:
+
+```text
+/
+```
+
+This is the main page of the application.
+
+It contains:
+
+- header;
+- user information;
+- movie search;
+- movie sorting;
+- top-rated movies banner;
+- genre filters;
+- list of movies;
+- movie cards with posters, ratings, descriptions and genres;
+- pagination.
+
+Movies can be filtered by genre by clicking on a genre.
+
+Movies can be sorted by:
+
+- popularity;
+- rating;
+- release date.
+
+The search allows users to find movies by the full title or part of the title.
+
+Clicking on a movie card opens the Movie Details Page.
+
+### Movie Details Page
+
+URL:
+
+```text
+/movies/:id
+```
+
+Example:
+
+```text
+/movies/550
+```
+
+This page contains detailed information about the selected movie:
+
+- movie title;
+- backdrop image;
+- poster;
+- rating;
+- genres;
+- release date;
+- vote count;
+- runtime;
+- overview.
+
+The **Back to movies** button returns the user to the main Movies Page.
+
+## Component Structure
+
+The application uses the following component structure:
+
+```text
+MainLayout
+├── Header
+│   ├── Search
+│   ├── Sort
+│   └── UserInfo
+│
+└── Outlet
+    ├── MoviesPage
+    │   ├── MovieBanner
+    │   ├── GenreButtonComponent
+    │   ├── MoviesList
+    │   │   └── MovieListCard
+    │   │       ├── PosterPreview
+    │   │       ├── StarsRating
+    │   │       └── MovieInfo
+    │   │           └── GenreBadge
+    │   └── Pagination
+    │
+    └── MovieDetailsPage
+```
+
+## Main Functionality
+
+The application supports:
+
+- getting a list of movies;
+- getting a single movie by ID;
+- searching movies by the full title or part of the title;
+- sorting movies by popularity, rating and release date;
+- filtering movies by genre;
+- pagination;
+- viewing detailed information about a selected movie;
+- routing between the main page and the movie details page.
+
+## API
+
+The application uses The Movie Database (TMDB) API.
+
+Base API URL:
+
+```text
+https://api.themoviedb.org/3
 ```

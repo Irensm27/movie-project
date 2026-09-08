@@ -1,4 +1,4 @@
-import Header from "../components/Header.tsx";
+import Header from "../components/headerComponents/Header.tsx";
 import {Outlet} from "react-router-dom";
 
 const MainLayout = () => {

@@ -1,9 +1,6 @@
-import {useAppDispatch} from "../redux/store.ts";
-import { useState} from "react";
-import {movieActions} from "../redux/slices/MovieSlice.ts";
-
-
-
+import {useAppDispatch} from "../../redux/store.ts";
+import {useState} from "react";
+import {movieActions} from "../../redux/slices/MovieSlice.ts";
 
 const Search = () => {
     const dispatch = useAppDispatch();
@@ -20,13 +17,7 @@ const Search = () => {
             />
 
             <button
-                onClick={() => {
-                    dispatch(movieActions.changeSearchQuery(search));
-                    dispatch(movieActions.searchMovies({
-                        query: search,
-                        page: 1
-                    }));
-                }}
+                onClick={() => dispatch(movieActions.changeSearchQuery(search))}
                 className="rounded-r-lg bg-yellow-400 px-5 py-2 font-semibold text-neutral-900 transition hover:bg-yellow-300"
             >
                 Search

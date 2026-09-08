@@ -2,7 +2,6 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {genreService, movieService} from "../services/movie.api.service.ts";
 
 
-
 export const loadMovies = createAsyncThunk(
     'movieSlice/loadMovies',
     async (

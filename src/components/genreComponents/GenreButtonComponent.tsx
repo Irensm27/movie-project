@@ -1,5 +1,5 @@
-import {useAppDispatch, useAppSelector} from "../redux/store.ts";
-import {movieActions} from "../redux/slices/MovieSlice.ts";
+import {useAppDispatch, useAppSelector} from "../../redux/store.ts";
+import {movieActions} from "../../redux/slices/MovieSlice.ts";
 
 
 const GenreButtonComponent = () => {
