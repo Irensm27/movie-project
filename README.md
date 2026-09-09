@@ -67,6 +67,8 @@ URL: .../movies/:id
 ## Структура компонентів
 
 Основна структура компонентів проєкту:
+
+```text
 MainLayout
 ├── Header
 │   ├── Search
@@ -86,7 +88,7 @@ MainLayout
     │   └── Pagination
     │
     └── MovieDetailsPage
-
+```
 ## Основний функціонал
 
 У проєкті реалізовано:
