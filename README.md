@@ -1,122 +1,72 @@
-# Movies App
+Movies App — це застосунок для перегляду фільмів, створений на React з використанням API The Movie Database (TMDB)
 
-Movies App is a React application for browsing movies using The Movie Database (TMDB) API.
-
-## Technologies
-
-- React
-- TypeScript
-- Redux Toolkit
-- React Router
-- Axios
-- Tailwind CSS
-- TMDB API
-
-## Installation and project launch
-
-1. Clone the repository.
-
-2. Install the dependencies:
-
-```bash
+ЗАПУСК ПРОЄКТУ
+1. Клонувати репозиторій.
+2. Встановити всі необхідні залежності:
+bash
 npm install
-```
 
-3. Create a `.env` file in the root directory of the project.
-
-4. Add the TMDB API token to the `.env` file:
-
-```env
+3. У корені проєкту створити файл `.env`.
+4. Додати в `.env` токен для роботи з TMDB API:
+env
 VITE_TMDB_TOKEN=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NTEyZGQzOTQzODhiMDRkNWJhZDBiZWQxNWI5ZjFkZSIsIm5iZiI6MTc4ODEwNDY5MS42MDMwMDAyLCJzdWIiOiI2YTk0NGZmMzAxYjA5MmEyN2M0MjU0N2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.ataDkmNWWaVcnCErir5XgotxA-Ws2JgCDlqHwfYK50I
-```
 
-5. Start the project:
-
-```bash
+5. Запустити проєкт:
+bash
 npm run dev
-```
 
-After starting the project, open the URL shown by Vite in the terminal.
+Після запуску відкрити в браузері посилання, яке з'явиться в терміналі.
 
-## TMDB API Token
+СТОРІНКИ:
+### Головна сторінка з фільмами
 
-The application uses a TMDB API token for authorization.
+URL: ..."/"
 
-Add the following variable to the `.env` file:
+На головній сторінці знаходяться:
 
-```env
-VITE_TMDB_TOKEN=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NTEyZGQzOTQzODhiMDRkNWJhZDBiZWQxNWI5ZjFkZSIsIm5iZiI6MTc4ODEwNDY5MS42MDMwMDAyLCJzdWIiOiI2YTk0NGZmMzAxYjA5MmEyN2M0MjU0N2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.ataDkmNWWaVcnCErir5XgotxA-Ws2JgCDlqHwfYK50I
-```
+- Header;
+- інформація про користувача;
+- пошук фільмів;
+- сортування фільмів;
+- банер з фільмами з високим рейтингом;
+- список жанрів;
+- список фільмів;
+- картки фільмів з постером, рейтингом, описом та жанрами;
+- пагінація.
 
-## Pages
+Фільми можна фільтрувати за жанром, натиснувши на потрібний жанр.
 
-### Movies Page
+Також фільми можна сортувати за:
+- популярністю;
+- рейтингом;
+- датою виходу.
 
-URL:
+За допомогою пошуку можна знайти фільм за повною назвою або частиною назви.
 
-```text
-/
-```
+При натисканні на картку фільму відкривається сторінка з детальною інформацією про нього.
 
-This is the main page of the application.
+### Сторінка окремого фільму
 
-It contains:
+URL: .../movies/:id
+Наприклад:.../movies/550
 
-- header;
-- user information;
-- movie search;
-- movie sorting;
-- top-rated movies banner;
-- genre filters;
-- list of movies;
-- movie cards with posters, ratings, descriptions and genres;
-- pagination.
+На сторінці відображається детальна інформація про вибраний фільм:
 
-Movies can be filtered by genre by clicking on a genre.
+- назва;
+- фонове зображення;
+- постер;
+- рейтинг;
+- жанри;
+- дата виходу;
+- кількість голосів;
+- тривалість фільму;
+- опис.
 
-Movies can be sorted by:
+Кнопка **Back to movies** повертає на головну сторінку.
 
-- popularity;
-- rating;
-- release date.
+## Структура компонентів
 
-The search allows users to find movies by the full title or part of the title.
-
-Clicking on a movie card opens the Movie Details Page.
-
-### Movie Details Page
-
-URL:
-
-```text
-/movies/:id
-```
-
-Example:
-
-```text
-/movies/550
-```
-
-This page contains detailed information about the selected movie:
-
-- movie title;
-- backdrop image;
-- poster;
-- rating;
-- genres;
-- release date;
-- vote count;
-- runtime;
-- overview.
-
-The **Back to movies** button returns the user to the main Movies Page.
-
-## Component Structure
-
-The application uses the following component structure:
-
-```text
+Основна структура компонентів проєкту:
 MainLayout
 ├── Header
 │   ├── Search
@@ -136,27 +86,21 @@ MainLayout
     │   └── Pagination
     │
     └── MovieDetailsPage
-```
 
-## Main Functionality
+## Основний функціонал
 
-The application supports:
-
-- getting a list of movies;
-- getting a single movie by ID;
-- searching movies by the full title or part of the title;
-- sorting movies by popularity, rating and release date;
-- filtering movies by genre;
-- pagination;
-- viewing detailed information about a selected movie;
-- routing between the main page and the movie details page.
+У проєкті реалізовано:
+- отримання списку фільмів;
+- отримання окремого фільму за його id;
+- пошук фільмів за повною назвою або частиною назви;
+- сортування фільмів за популярністю, рейтингом та датою виходу;
+- фільтрація фільмів за жанрами;
+- пагінація;
+- перегляд детальної інформації про окремий фільм;
+- перехід між головною сторінкою та сторінкою окремого фільму за допомогою React Router.
 
 ## API
 
-The application uses The Movie Database (TMDB) API.
+Для отримання інформації про фільми використовується The Movie Database (TMDB) API.
 
-Base API URL:
-
-```text
-https://api.themoviedb.org/3
-```
+Base URL:https://api.themoviedb.org/3
