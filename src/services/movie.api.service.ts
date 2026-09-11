@@ -11,23 +11,45 @@ export const axiosInstance = axios.create({
 });
 
 export const movieService = {
-    getMovies: (page: number, genreId?: number, sortBy: string = 'popularity.desc') => {
+    getMovies: (
+        page: number,
+        genreId?: number,
+        sortBy: string = 'popularity.desc'
+    ) => {
         const today = new Date().toISOString().split('T')[0];
 
-        return axiosInstance.get<IMovieResponse>(
-            `/discover/movie?page=${page}&sort_by=${sortBy}` +
-            `${genreId ? `&with_genres=${genreId}` : ''}` +
-            `${sortBy === 'release_date.desc' ? `&release_date.lte=${today}` : ''}`
-        );
+        return axiosInstance.get<IMovieResponse>('/discover/movie', {
+            params: {
+                page,
+                sort_by: sortBy,
+                ...(genreId && {with_genres: genreId}),
+                ...(sortBy === 'release_date.desc' && {
+                    'release_date.lte': today
+                })
+            }
+        });
     },
 
-    getMovieById: (id:string) => axiosInstance.get<IMovieDetails>(`/movie/${id}`),
+    getMovieById: (id: string) =>
+        axiosInstance.get<IMovieDetails>(`/movie/${id}`),
 
-    searchMovies: (query:string, page:number) => axiosInstance.get<IMovieResponse>(`/search/movie?query=${query}&page=${page}`),
+    searchMovies: (query: string, page: number) =>
+        axiosInstance.get<IMovieResponse>('/search/movie', {
+            params: {
+                query,
+                page
+            }
+        }),
 
-    getTopRatedMovies: () => axiosInstance.get<IMovieResponse>("/movie/top_rated?page=1")
-}
+    getTopRatedMovies: () =>
+        axiosInstance.get<IMovieResponse>('/movie/top_rated', {
+            params: {
+                page: 1
+            }
+        })
+};
+
 export const genreService = {
-    getGenres: () => axiosInstance.get<IGenreResponse>("/genre/movie/list")
-}
-
+    getGenres: () =>
+        axiosInstance.get<IGenreResponse>('/genre/movie/list')
+};

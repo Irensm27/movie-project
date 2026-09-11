@@ -1,9 +1,49 @@
+import {useEffect} from "react";
 import MoviesList from "../components/movieComponents/MoviesList.tsx";
 import Pagination from "../components/pagination/Pagination.tsx";
 import GenreButtonComponent from "../components/genreComponents/GenreButtonComponent.tsx";
 import MovieBanner from "../components/movieComponents/MovieBanner.tsx";
+import {useAppDispatch, useAppSelector} from "../redux/store.ts";
+import {movieActions} from "../redux/slices/MovieSlice.ts";
 
 const MoviesPage = () => {
+    const dispatch = useAppDispatch();
+
+    const {
+        movies,
+        genres,
+        page,
+        searchQuery,
+        selectedGenreId,
+        sortBy,
+        isLoading,
+        error
+    } = useAppSelector(state => state.movieStoreSlice);
+
+    useEffect(() => {
+        if (searchQuery) {
+            dispatch(movieActions.searchMovies({
+                query: searchQuery,
+                page: page
+            }));
+        } else {
+            dispatch(movieActions.loadMovies({
+                page: page,
+                genreId: selectedGenreId,
+                sortBy: sortBy
+            }));
+        }
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }, [dispatch, page, searchQuery, selectedGenreId, sortBy]);
+
+    useEffect(() => {
+        dispatch(movieActions.loadGenres());
+    }, [dispatch]);
+
     return (
         <div className="relative min-h-screen overflow-hidden bg-neutral-950 text-white">
 
@@ -18,8 +58,35 @@ const MoviesPage = () => {
             <div className="relative z-10">
                 <MovieBanner/>
                 <GenreButtonComponent/>
-                <MoviesList/>
-                <Pagination/>
+
+                {
+                    isLoading &&
+                    <div className="flex min-h-[300px] items-center justify-center">
+                        <p className="text-xl">
+                            Loading...
+                        </p>
+                    </div>
+                }
+
+                {
+                    error && !isLoading &&
+                    <div className="flex min-h-[300px] items-center justify-center">
+                        <p className="text-xl text-red-400">
+                            {error}
+                        </p>
+                    </div>
+                }
+
+                {
+                    !isLoading && !error &&
+                    <>
+                        <MoviesList
+                            movies={movies}
+                            genres={genres}
+                        />
+                        <Pagination/>
+                    </>
+                }
             </div>
 
         </div>
